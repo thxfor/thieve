@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style type="text/css">
+		.duck {
+			height: 100px;
+			width:100px;
+			position: absolute;
+		}
+
+		.text {
+			font-family: Arial;
+			position: absolute;
+			left: 820px;
+			color: white;
+		}
+
+		.text1 {
+			font-family: Arial;
+			position: absolute;
+			left: 670px;
+			top: 120px;
+			color: white;
+			background-color: #242424;
+		}
+
+		.btn {
+			height: 50px;
+			width: 130px;
+			position: absolute;
+			left: 870px;
+			top: 80px;
+			border: none;
+		}
+
+		.lose {
+			height: 600px;
+			left: 640px;
+			position: absolute;
+			display: none;
+		}
+	
+		.win {
+			height: 600px;
+			left: 630px;
+			position: absolute;
+			display: none;
+		}		
+	</style>
+</head>
+<body style="background-image: url(treasuresplace.jpg);" class="treasures">
+	<img src="you lost.png" class="lose">
+	<img src="you win.png" class="win">
+
+	<div class="body">
+		<h1 class="text1">Твоя цель - успеть взять 30+ золота</h1>
+
+		<h1 class="text">Твоё золото:
+			<span class="score">0</span>
+		</h1>
+
+		
+
+		<button class="btn">Начать игру</button>
+
+		<script type="text/javascript" class="scrpt">
+			let trs = document.querySelector('.treasures');
+			let score = document.querySelector('.score');
+			let button = document.querySelector('.btn');
+			let body = document.querySelector('.body');
+			let text = document.querySelector('.text');
+			let lose = document.querySelector('.lose');
+			let win = document.querySelector('.win');
+			let text1 = document.querySelector('.text1')
+			let scrpt = document.querySelector('.scrpt');
+			let types = ['bad','good'];
+			let y = [200,400,600];
+			let point = 0;
+
+
+			let createDuck = function(){
+				let duck = document.createElement('div');
+				document.body.appendChild(duck);
+				duck.classList.add('duck');
+				randomX = Math.round(Math.random()*1400+200);
+				duck.style.left = randomX + "px";
+				randomY = Math.round(Math.random()*2);
+				duck.style.top = y[randomY] + "px";
+
+				console.dir(duck)
+				let typeIndex = Math.round(Math.random()*1)
+				duck.myType = types[typeIndex]
+
+					if (duck.myType=='bad') {
+						duck.style.backgroundImage = "url(bad.png)"
+						duck.style.backgroundSize = "100% 100%"
+					}
+
+					else if (duck.myType=='good') {
+						duck.style.backgroundImage = "url(good.png)"
+						duck.style.backgroundSize = "100% 100%"
+					}
+
+
+				duck.onclick = function(){
+					duck.style.display = "none";
+
+					if (duck.myType=='bad') {
+						point = point - 2
+					}
+
+					else if (duck.myType=='good') {
+						point = point + 2
+					}
+					score.innerHTML = point;
+
+					if(point>=10){
+						text.style.color = "orange"
+					}
+
+					if(point>=20){
+						text.style.color = "yellow"
+					}
+
+					if(point>=30){
+						text.style.color = "limegreen"
+					}
+				}
+			}
+
+			let endGame = function(){
+				clearInterval(interval1)
+				if(point>=30){
+					win.style.display = "block"
+					alert('Ты справился с заданием!')
+				}
+				else{
+					lose.style.display = "block"
+					alert('Ты не справился с заданием!')
+				}
+			}
+		
+			button.onclick = function(){
+				text.style.color = "red"
+				text1.style.display = "none"
+				interval1 = setInterval(createDuck, 250)
+				setTimeout(endGame, 9000)
+				button.style.display = "none"
+			}
+
+				
+		</script>
+	</div>
+</body>
+</html>
